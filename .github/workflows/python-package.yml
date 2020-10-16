@@ -22,6 +22,9 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install tox
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Lookup location
+      run: |
+        pwd
+        ls -al
     - name: Test with pytest
       run: tox -e py
