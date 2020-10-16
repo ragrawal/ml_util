@@ -9,8 +9,15 @@ flake8 mlplumber
 
 **Running test cases**
 ```
-pytest
+py.test tests
 ```
+
+**Running github actions**
+```
+brew install act
+act
+```
+
 
 
 
