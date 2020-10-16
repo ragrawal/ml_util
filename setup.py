@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup
-from setuptools.command.test import test
 import re
 
 for line in open('mlplumber/__init__.py'):
@@ -13,7 +12,7 @@ for line in open('mlplumber/__init__.py'):
 
 setup(name='mlplumber',
       version=__version__,
-      description='ML Utilities for constructing pipelines using baikal and sklearn_pandas',
+      description='ML Utilities for constructing pipeline',
       maintainer='Ritesh Agrawal',
       maintainer_email='ragrawal@gmail.com',
       url='https://github.com/ragrawal/mlplumber',
@@ -26,4 +25,4 @@ setup(name='mlplumber',
           'catboost'
       ],
       tests_require=['pytest']
-)
+      )
