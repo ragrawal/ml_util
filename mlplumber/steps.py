@@ -1,5 +1,7 @@
 from baikal import Step
 from sklearn_pandas import DataFrameMapper
+from catboost import CatBoostClassifier
+
 
 class DataFrameMapperStep(Step, DataFrameMapper):
 
