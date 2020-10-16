@@ -38,10 +38,8 @@ setup(name='mlplumber',
       packages=['mlplumber'],
       keywords=['scikit', 'sklearn', 'pandas', 'baikal'],
       install_requires=[
-          'scikit-learn>=0.23.0',
-          'baikal>=0.4.1',
-          'pandas>=1.0.5',
-          'numpy>=1.18.1'
+          'sklearn-pandas>=2.0.0',
+          'baikal>=0.4.1'
       ],
       tests_require=['pytest', 'mock'],
       cmdclass={'test': PyTest},
