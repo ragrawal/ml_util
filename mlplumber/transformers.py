@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 from baikal import Step
 from sklearn.base import TransformerMixin
