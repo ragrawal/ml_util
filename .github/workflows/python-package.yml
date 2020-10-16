@@ -11,7 +11,6 @@ jobs:
     strategy:
       matrix:
         python-version: [3.6, 3.7, 3.8]
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
@@ -22,9 +21,5 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install tox
-    - name: Lookup location
-      run: |
-        pwd
-        ls -al
     - name: Test with pytest
       run: tox -e py
