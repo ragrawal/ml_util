@@ -31,7 +31,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v1
       with:
         python-version: '3.x'
     - name: Install dependencies
@@ -52,7 +52,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v1
       with:
         python-version: '3.x'
     - name: Install dependencies
@@ -65,4 +65,4 @@ jobs:
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       run: |
         python setup.py sdist bdist_wheel
-        twine upload --repository testpypi dist/*
+        twine upload --repository pypi dist/*
