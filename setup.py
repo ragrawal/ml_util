@@ -21,8 +21,7 @@ setup(name='mlplumber',
       setup_requires=['flake8'],
       install_requires=[
           'sklearn-pandas>=2.0.0',
-          'baikal>=0.4.1',
-          'catboost'
+          'baikal>=0.4.1'
       ],
       tests_require=['pytest']
       )
