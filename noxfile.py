@@ -7,7 +7,7 @@ def lint(session):
                     'wheel==0.34.2', 'flake8==3.7.9',
                     'numpy==1.18.1', 'pandas==1.0.5')
     session.install('.')
-    session.run('flake8')
+    session.run('flake8', 'mlplumber/')
 
 
 @nox.session
