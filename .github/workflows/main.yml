@@ -20,43 +20,12 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
 
   deploy_pypi_test:
+    name: Test PYPI
     needs: release
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install setuptools wheel twine
-    - name: Build and publish
-      env:
-        TWINE_USERNAME: __token__
-        TWINE_PASSWORD: ${{ secrets.TEST_PYPI_PASSWORD }}
-      run: |
-        python setup.py sdist bdist_wheel
-        twine upload dist/*
-
-  deploy_pypi_prod:
-    needs: deploy_pypi_test
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install setuptools wheel twine
-    - name: Build and publish
-      env:
-        TWINE_USERNAME: __token__
-        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-      run: |
-        python setup.py sdist bdist_wheel
-        twine upload --repository pypi dist/*
+    uses: pypa/gh-action-pypi-publish@release/v1
+    with: 
+      user: __token__
+      password: ${{ secrets.TEST_PYPI_PASSWORD }}
+      repository_url: https://test.pypi.org/legacy/
+  
