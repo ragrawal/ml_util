@@ -7,10 +7,28 @@ on:
       - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
+
   release:
     name: Create Release
     runs-on: ubuntu-latest
     steps:
+      - name: set Environment Variables
+        id: set_env_var
+        run: |
+         VERSION=$(sed 's/[^0-9|.]//g' _Release.h)  # zb. 2.4.2
+         if [ $REPOSITORY = "master" ]; then IS_PRE='false'; else IS_PRE='true'; fi
+         if [ $REPOSITORY = "master" ]; then POSTFIX=''    ; else POSTFIX='PRE';    fi
+         RELEASEBODY=$(awk -v RS='Release ' '/'$VERSION':(.*)/ {print $0}' ChangeLog.h)
+         RELEASEBODY="${RELEASEBODY//'%'/'%25'}"
+         RELEASEBODY="${RELEASEBODY//$'\n'/'%0A'}"
+         RELEASEBODY="${RELEASEBODY//$'\r'/'%0D'}"       
+         echo "::set-output name=version::${VERSION}"
+         echo "::set-output name=IS_PRERELEASE::${IS_PRE}"
+         echo "::set-output name=RELEASENAME_POSTFIX::${POSTFIX}"
+         echo "::set-output name=RELEASEBODY::${RELEASEBODY}"
+         echo "::set-env name=body::${RELEASEBODY}"
+        env:
+            REPOSITORY: ${{ github.event.repository.name }}
       - name: Checkout code
         uses: actions/checkout@master
       - name: Create Release
@@ -20,12 +38,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
           tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          release_name: ${{ github.ref }}
           body: |
-            Changes in this Release
+            ${{ steps.set_env_var.outputs.RELEASEBODY }}
           draft: false
           prerelease: false
-  deploy:
+
+  deploy_pypi_test:
     needs: release
     runs-on: ubuntu-latest
     steps:
@@ -40,8 +59,29 @@ jobs:
         pip install setuptools wheel twine
     - name: Build and publish
       env:
-        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.TEST_PYPI_PASSWORD }}
       run: |
         python setup.py sdist bdist_wheel
         twine upload dist/*
+
+  deploy_pypi_prod:
+    needs: deploy_pypi_test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: '3.x'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install setuptools wheel twine
+    - name: Build and publish
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+      run: |
+        python setup.py sdist bdist_wheel
+        twine upload --repository pypi dist/*
