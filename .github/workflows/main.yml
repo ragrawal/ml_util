@@ -6,7 +6,8 @@ on:
 
 jobs:
 
-  build:
+  tag:
+    name: Increment Tag
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -27,6 +28,7 @@ jobs:
   release:
     name: Create Release
     runs-on: ubuntu-latest
+    needs: tag
     steps:
     - uses: actions/checkout@v2
       with:
