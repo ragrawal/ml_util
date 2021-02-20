@@ -20,7 +20,7 @@ jobs:
 
   deploy_pypi_test:
     name: Test PYPI
-    needs: release
+    # needs: release
     runs-on: ubuntu-latest
     steps:
       - name: Publish
