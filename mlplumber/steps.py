@@ -20,3 +20,4 @@ class DataFrameMapperStep(Step, DataFrameMapper):
         self._nodes = state["_nodes"]
         self._n_outputs = state["_n_outputs"]
         super().__setstate__(state)
+        return
