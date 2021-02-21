@@ -23,5 +23,7 @@ setup(name='mlplumber',
           'sklearn-pandas>=2.0.0',
           'baikal>=0.4.1'
       ],
+      use_scm_version=True,
+      setup_requires=['setuptools_scm'],      
       tests_require=['pytest']
       )

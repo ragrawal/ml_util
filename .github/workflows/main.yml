@@ -10,15 +10,11 @@ jobs:
     name: Increment Tag
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2  
-      - name: Set Version Number 
-        run: echo "PACKAGE_VERSION=$(cat mlplumber/__init__.py | grep 'version' | cut -d= -f2)"  >> $GITHUB_ENV    
-      - name: Push Tag
+      - name: Bump Version
         id: tag_version
         uses: mathieudutour/github-tag-action@v5.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: $PACKAGE_VERSION
       - name: Create a GitHub release
         uses: actions/create-release@v1
         env:
