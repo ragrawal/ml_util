@@ -5,7 +5,7 @@ from setuptools import setup
 import re
 
 for line in open('mlplumber/__init__.py'):
-    match = re.match("__version__ *= *'(.*)'", line)
+    match = re.match('__version__ *= *"(.*)"', line)
     if match:
         __version__, = match.groups()
 
