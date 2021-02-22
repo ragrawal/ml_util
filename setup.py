@@ -23,5 +23,6 @@ setup(name='mlplumber',
           'sklearn-pandas>=2.0.0',
           'baikal>=0.4.1'
       ],     
-      tests_require=['pytest']
-      )
+      tests_require=['pytest'],
+      license='GNU GENERAL PUBLIC LICENSE'
+)
